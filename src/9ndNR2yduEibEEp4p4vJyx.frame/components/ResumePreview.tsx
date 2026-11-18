@@ -52,9 +52,9 @@ export function ResumePreview({ data, template, highlight }: { data: ResumeData;
         <div className="min-w-0 flex-1 space-y-4 p-6 text-[12px] leading-relaxed sm:p-8">
           <header>
             <h2 className="text-xl font-bold" style={{ color: '#0F172A' }}>
-              Priya Raman
+              Riya Raman
             </h2>
-            <p style={{ color: '#475569' }}>Chennai, India · priya.raman@outlook.com · github.com/priyaraman</p>
+            <p style={{ color: '#475569' }}>Chennai, India · Riya.raman@outlook.com · github.com/Riyaraman</p>
           </header>
           {data.order.map((k) => (
             <React.Fragment key={k}>{render[k]()}</React.Fragment>

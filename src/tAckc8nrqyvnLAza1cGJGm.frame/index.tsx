@@ -7,7 +7,7 @@ import { EASE } from '../shared/components/motion'
 export const args = {
   mode: 'signin',
   state: 'default',
-  email: 'priya.raman@outlook.com',
+  email: 'Riya.raman@outlook.com',
   theme: 'light',
 }
 
@@ -184,7 +184,7 @@ export default function SignIn(props: Props) {
           >
             {register && (
               <Field label="Full name">
-                <input defaultValue="Priya Raman" className={INPUT} autoComplete="name" />
+                <input defaultValue="Riya Raman" className={INPUT} autoComplete="name" />
               </Field>
             )}
             <Field label="Email address">
