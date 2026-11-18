@@ -1,6 +1,6 @@
 # AI Interview Coach
 
-Exported from [this design](https://www.magicpatterns.com/os/cDeEBCvB1C1j4phwJr7jmN?file=6j2CmNAxYn9t1dVfE9KpvX) on [Magic Patterns](https://magicpatterns.com).
+Exported from [this design](https://www.magicpatterns.com/os/uPAaugVSe4o6ubRAykDrZU?file=dbtUTEW4TiawoD2EfD6KQ8) on [Magic Patterns](https://magicpatterns.com).
 
 ## Getting started
 

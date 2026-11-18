@@ -8,8 +8,8 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function Button({ variant = 'primary', size = 'md', className, ...rest }: ButtonProps) {
   const v = {
-    primary: 'bg-primary text-white hover:bg-primary-600 disabled:bg-primary/50',
-    secondary: 'border border-line bg-surface text-ink hover:bg-canvas disabled:text-subtle',
+    primary: 'bg-primary text-white shadow-[0_1px_2px_rgb(15_23_42/0.12),inset_0_1px_0_rgb(255_255_255/0.12)] hover:bg-primary-600 hover:shadow-[0_6px_16px_-4px_color-mix(in_srgb,var(--color-primary)_45%,transparent)] disabled:bg-primary/50 disabled:shadow-none',
+    secondary: 'border border-line bg-surface text-ink shadow-[0_1px_2px_rgb(15_23_42/0.04)] hover:border-subtle/60 hover:bg-canvas disabled:text-subtle',
     ghost: 'text-muted hover:bg-canvas hover:text-ink',
     danger: 'bg-danger text-white hover:bg-danger/90',
   }[variant]
@@ -17,7 +17,7 @@ export function Button({ variant = 'primary', size = 'md', className, ...rest }:
   return (
     <button
       className={twMerge(
-        'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg font-medium transition-[background-color,color,transform] duration-150 ease-out-strong active:scale-[0.98] disabled:cursor-not-allowed disabled:active:scale-100',
+        'group inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-lg font-medium transition-[background-color,color,transform,box-shadow,border-color] duration-150 ease-out-strong active:scale-[0.97] disabled:cursor-not-allowed disabled:active:scale-100',
         v,
         s,
         className
@@ -74,8 +74,12 @@ export function Delta({ value, suffix = '' }: { value: number; suffix?: string }
   )
 }
 
-export function Panel({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <section className={twMerge('rounded-xl border border-line bg-surface', className)}>{children}</section>
+export function Panel({ className, children, interactive }: { className?: string; children: React.ReactNode; interactive?: boolean }) {
+  return (
+    <section className={twMerge('rounded-2xl border border-line bg-surface shadow-[var(--shadow-soft)]', interactive && 'lift', className)}>
+      {children}
+    </section>
+  )
 }
 
 export function DevModeNote({ children }: { children: React.ReactNode }) {

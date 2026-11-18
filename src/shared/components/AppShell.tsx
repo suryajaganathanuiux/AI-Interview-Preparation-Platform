@@ -89,8 +89,8 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
       >
         <div className="flex h-16 shrink-0 items-center justify-between px-4">
           <div className="flex min-w-0 items-center gap-2.5">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
-              <Compass className="h-[18px] w-[18px]" />
+            <div className="group flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white shadow-[0_4px_12px_-4px_var(--color-primary)]">
+              <Compass className="h-[18px] w-[18px] transition-transform duration-300 ease-out-strong group-hover:rotate-45" />
             </div>
             <div className={`min-w-0 leading-tight ${collapsed ? 'lg:hidden' : ''}`}>
               <p className="truncate text-sm font-semibold">AI Career Coach</p>
@@ -116,14 +116,25 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
                       onClick={() => go(it.key)}
                       title={collapsed ? it.label : undefined}
                       aria-current={isActive ? 'page' : undefined}
-                      className={`flex w-full items-center gap-3 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors duration-150 ${
-                        isActive ? 'bg-primary-soft font-semibold text-primary' : 'text-muted hover:bg-canvas hover:text-ink'
+                      className={`group relative flex w-full items-center gap-3 whitespace-nowrap rounded-lg px-3 py-2 text-sm transition-colors duration-150 ${
+                        isActive ? 'font-semibold text-primary' : 'text-muted hover:bg-canvas hover:text-ink'
                       } ${collapsed ? 'lg:justify-center lg:px-0' : ''}`}
                     >
-                      <Icon className="h-4 w-4 shrink-0" />
-                      <span className={collapsed ? 'lg:hidden' : ''}>{it.label}</span>
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-active"
+                          className="absolute inset-0 rounded-lg bg-primary-soft"
+                          transition={{ type: 'spring', stiffness: 520, damping: 40 }}
+                        >
+                          <span className="absolute left-0 top-1/2 h-4 w-[3px] -translate-y-1/2 rounded-r-full bg-primary" />
+                        </motion.span>
+                      )}
+                      <Icon
+                        className={`relative h-4 w-4 shrink-0 transition-transform duration-150 ease-out-strong ${isActive ? '' : 'group-hover:scale-110'}`}
+                      />
+                      <span className={`relative ${collapsed ? 'lg:hidden' : ''}`}>{it.label}</span>
                       {it.badge && !collapsed && (
-                        <span className="ml-auto rounded-md bg-line-soft px-1.5 text-[11px] font-medium text-muted">{it.badge}</span>
+                        <span className="relative ml-auto rounded-full bg-primary px-1.5 text-[11px] font-semibold text-white">{it.badge}</span>
                       )}
                     </button>
                   )
@@ -148,7 +159,7 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
 
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="relative z-20 flex h-16 shrink-0 items-center gap-2 border-b border-line bg-surface px-3 sm:gap-3 sm:px-6">
+        <header className="relative z-20 flex h-16 shrink-0 items-center gap-2 border-b border-line bg-surface/80 px-3 backdrop-blur-xl sm:gap-3 sm:px-6">
           <button className="rounded-md p-1.5 text-muted hover:bg-canvas lg:hidden" onClick={() => setOpen(true)} aria-label="Open menu">
             <Menu className="h-5 w-5" />
           </button>
@@ -174,11 +185,11 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
           <div className="relative">
             <button
               onClick={() => setMenu(menu === 'notifications' ? 'none' : 'notifications')}
-              className="relative rounded-full p-2 text-muted hover:bg-canvas hover:text-ink"
+              className="group relative rounded-full p-2 text-muted transition-colors duration-150 hover:bg-canvas hover:text-ink"
               aria-label="Notifications"
               aria-expanded={menu === 'notifications'}
             >
-              <Bell className="h-5 w-5" />
+              <Bell className="bell-ring h-5 w-5" />
               <NotificationDot />
             </button>
             <Popover show={menu === 'notifications'} className="right-0 w-[min(360px,calc(100vw-24px))]">
@@ -194,7 +205,10 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
               aria-label="Account menu"
               aria-expanded={menu === 'profile'}
             >
-              <img src={candidate.avatar} alt="" className="h-8 w-8 rounded-full object-cover" />
+              <span className="relative">
+                <img src={candidate.avatar} alt="" className="h-8 w-8 rounded-full object-cover ring-2 ring-surface" />
+                <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-surface bg-success" />
+              </span>
               <span className="hidden text-sm font-medium md:block">{variant === 'admin' ? 'Ops Admin' : candidate.firstName}</span>
             </button>
             <Popover show={menu === 'profile'} className="right-0 w-64">
@@ -223,7 +237,15 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
         </header>
 
         {menu !== 'none' && menu !== 'search' && <div className="fixed inset-0 z-10" onClick={() => setMenu('none')} />}
-        <main className="min-h-0 flex-1 overflow-y-auto">{children}</main>
+        <motion.main
+          key={title}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
+          className="min-h-0 flex-1 overflow-y-auto"
+        >
+          {children}
+        </motion.main>
       </div>
 
       {/* NOVA */}
@@ -231,12 +253,14 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
         <>
           <button
             onClick={() => setNova(true)}
-            className={`fixed bottom-5 right-5 z-30 flex h-12 items-center gap-2 rounded-full bg-primary pl-4 pr-5 text-sm font-medium text-white shadow-lg shadow-primary/25 transition-[transform,opacity] duration-200 ease-out-strong hover:bg-primary-600 active:scale-[0.97] ${
+            className={`group fixed bottom-5 right-5 z-30 flex h-12 items-center gap-2 rounded-full bg-primary pl-4 pr-5 text-sm font-medium text-white shadow-lg shadow-primary/30 transition-[transform,opacity,box-shadow] duration-200 ease-out-strong hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-xl hover:shadow-primary/35 active:scale-[0.97] ${
               nova ? 'pointer-events-none scale-95 opacity-0' : ''
             }`}
             aria-label="Ask NOVA, your AI career agent"
           >
-            <Sparkles className="h-4 w-4" /> Ask NOVA
+            <span className="pointer-events-none absolute inset-0 rounded-full bg-primary animate-ping-soft" style={{ animationIterationCount: 3 }} aria-hidden />
+            <Sparkles className="relative h-4 w-4 transition-transform duration-300 ease-out-strong group-hover:rotate-12 group-hover:scale-110" />
+            <span className="relative">Ask NOVA</span>
           </button>
           <NovaPanel open={nova} onClose={() => setNova(false)} onNavigate={go} onExpand={() => go('nova')} />
         </>
@@ -329,7 +353,12 @@ const noteStore = { read: new Set<string>(), removed: new Set<string>() }
 
 function NotificationDot() {
   const unread = NOTES.filter((n) => !noteStore.read.has(n.id) && !noteStore.removed.has(n.id)).length
-  return unread ? <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-danger" /> : null
+  return unread ? (
+    <span className="absolute right-1.5 top-1.5 flex h-2 w-2">
+      <span className="absolute inset-0 rounded-full bg-danger animate-ping-soft" />
+      <span className="relative h-2 w-2 rounded-full bg-danger ring-2 ring-surface" />
+    </span>
+  ) : null
 }
 
 function Notifications({ onGo }: { onGo: (k: NavKey) => void }) {

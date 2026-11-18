@@ -1,0 +1,250 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORT — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORT MUST NEVER BE DELETED — DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss';
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --color-navy: #0f172a;
+  --color-navy-700: #1e293b;
+  --color-primary: #1e40af;
+  --color-primary-600: #1e3a8a;
+  --color-secondary: #3b82f6;
+  --color-primary-soft: #eef3fe;
+  --color-sky: #60a5fa;
+  --color-canvas: #f8fafc;
+  --color-surface: #ffffff;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-subtle: #94a3b8;
+  --color-line: #e2e8f0;
+  --color-line-soft: #eef2f7;
+  --color-success: #16a34a;
+  --color-success-soft: #e8f6ed;
+  --color-success-ink: #137a37;
+  --color-warning: #92400e;
+  --color-warning-base: #d97706;
+  --color-warning-soft: #fef6e7;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fdecec;
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Optional dark theme: toggled from the profile menu. */
+.dark {
+  color-scheme: dark;
+  --color-navy: #3b82f6;
+  --color-navy-700: #2563eb;
+  --color-primary: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-soft: #172554;
+  --color-canvas: #0b1120;
+  --color-surface: #111a2e;
+  --color-ink: #e2e8f0;
+  --color-muted: #94a3b8;
+  --color-subtle: #64748b;
+  --color-line: #1e293b;
+  --color-line-soft: #18233a;
+  --color-success-soft: #0f2a1b;
+  --color-success-ink: #4ade80;
+  --color-warning: #fbbf24;
+  --color-warning-soft: #2a1d08;
+  --color-danger-soft: #2a1010;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------------
+   Gradient system — applied at the token/utility level so every
+   screen, light and dark, picks it up. Text on brand gradients stays
+   at AA contrast (white on #1E40AF → #2563EB).
+   ------------------------------------------------------------------ */
+:root,
+.dark {
+  --grad-brand: linear-gradient(135deg, var(--color-primary) 0%, var(--grad-brand-end) 100%);
+  --grad-brand-hover: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary) 100%);
+  --grad-soft: linear-gradient(135deg, var(--color-primary-soft) 0%, var(--grad-soft-end) 100%);
+  --grad-canvas: linear-gradient(180deg, var(--color-canvas) 0%, var(--grad-canvas-end) 100%);
+  --grad-surface: linear-gradient(180deg, var(--color-surface) 0%, var(--grad-surface-end) 100%);
+  --grad-ink: linear-gradient(135deg, var(--color-navy) 0%, var(--grad-ink-end) 100%);
+}
+:root {
+  --grad-brand-end: #2563eb;
+  --grad-soft-end: #e6efff;
+  --grad-canvas-end: #eef3fb;
+  --grad-surface-end: #fbfcfe;
+  --grad-ink-end: #1e3a8a;
+}
+.dark {
+  --grad-brand-end: #1d4ed8;
+  --grad-soft-end: #1e2f6b;
+  --grad-canvas-end: #0f1a33;
+  --grad-surface-end: #0f1830;
+  --grad-ink-end: #1d4ed8;
+}
+
+body {
+  background-image: var(--grad-canvas);
+}
+
+/* Brand fills: buttons, avatars, CTA bands, user chat bubbles, active steps */
+.bg-primary {
+  background-image: var(--grad-brand);
+}
+button.bg-primary:not(:disabled):hover,
+a.bg-primary:hover {
+  background-image: var(--grad-brand-hover);
+}
+.bg-navy {
+  background-image: var(--grad-ink);
+}
+.bg-primary-soft {
+  background-image: var(--grad-soft);
+}
+
+/* Page and panel surfaces */
+.bg-canvas {
+  background-image: var(--grad-canvas);
+}
+.bg-surface {
+  background-image: var(--grad-surface);
+}
+
+/* Bars, dots and status fills */
+.bg-success {
+  background-image: linear-gradient(90deg, #15803d 0%, #22c55e 100%);
+}
+.bg-warning-base {
+  background-image: linear-gradient(90deg, #d97706 0%, #f59e0b 100%);
+}
+.bg-danger {
+  background-image: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+}
+.bg-secondary {
+  background-image: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+}
+.bg-success-soft {
+  background-image: linear-gradient(135deg, var(--color-success-soft) 0%, color-mix(in srgb, var(--color-success-soft) 70%, #d1fae5) 100%);
+}
+.bg-warning-soft {
+  background-image: linear-gradient(135deg, var(--color-warning-soft) 0%, color-mix(in srgb, var(--color-warning-soft) 70%, #fde68a) 100%);
+}
+.bg-danger-soft {
+  background-image: linear-gradient(135deg, var(--color-danger-soft) 0%, color-mix(in srgb, var(--color-danger-soft) 75%, #fecaca) 100%);
+}
+.bg-line-soft {
+  background-image: linear-gradient(135deg, var(--color-line-soft) 0%, var(--color-line) 100%);
+}
+
+/* Gradient text for headline numbers and hero headings */
+.text-gradient {
+  background-image: linear-gradient(120deg, var(--color-primary) 0%, var(--grad-brand-end) 55%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Motion & surface layer — micro-interactions shared by every screen.
+   ------------------------------------------------------------------ */
+@theme {
+  --shadow-soft: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 12px -2px rgb(15 23 42 / 0.06);
+  --shadow-lift: 0 2px 4px rgb(15 23 42 / 0.04), 0 12px 28px -6px rgb(15 23 42 / 0.12);
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-ping-soft: ping-soft 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+  --animate-ring: ring 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes ping-soft {
+  0% { transform: scale(1); opacity: 0.45; }
+  70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes ring {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(14deg); }
+  40% { transform: rotate(-12deg); }
+  60% { transform: rotate(8deg); }
+  80% { transform: rotate(-4deg); }
+}
+
+/* Interactive cards: a 2px lift and a deeper shadow, only where the card is clickable. */
+.lift {
+  transition: transform 180ms var(--ease-out-strong), box-shadow 180ms var(--ease-out-strong), border-color 150ms ease-out;
+}
+@media (hover: hover) {
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+  }
+}
+.lift:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Arrow nudges right on hover of its group — used on CTAs and row links. */
+.nudge {
+  transition: transform 160ms var(--ease-out-strong);
+}
+.group:hover .nudge {
+  transform: translateX(3px);
+}
+
+/* Loading skeletons sweep instead of blinking. */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-line-soft) 25%, var(--color-line) 50%, var(--color-line-soft) 75%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Bell rings when hovered and there is something unread. */
+.group:hover .bell-ring {
+  animation: var(--animate-ring);
+  transform-origin: 50% 10%;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
