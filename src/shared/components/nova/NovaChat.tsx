@@ -67,7 +67,7 @@ export function NovaChat({
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
               <Sparkles className="h-5 w-5" />
             </div>
-            <h2 className={`mt-4 font-semibold tracking-tight ${compact ? 'text-lg' : 'text-2xl'}`}>Hi Priya, what are we working on?</h2>
+            <h2 className={`mt-4 font-semibold tracking-tight ${compact ? 'text-lg' : 'text-2xl'}`}>Hi Riya, what are we working on?</h2>
             <p className="mt-1 text-sm text-muted">
               I know your confirmed profile, resume, saved jobs, applications and interview history. I’ll always ask before saving or sending anything.
             </p>
@@ -392,7 +392,7 @@ function SkillGap({ onSend }: { onSend: (t: string) => void }) {
 function Draft() {
   const [copied, setCopied] = useState(false)
   const text =
-    'Hi Northwind Fintech team,\n\nI applied for the Junior React Developer role on May 9 and wanted to check whether there’s an update on next steps. I’m still very interested — the team’s work on payment dashboards lines up with the React projects on my resume.\n\nThank you for your time,\nPriya Raman'
+    'Hi Northwind Fintech team,\n\nI applied for the Junior React Developer role on May 9 and wanted to check whether there’s an update on next steps. I’m still very interested — the team’s work on payment dashboards lines up with the React projects on my resume.\n\nThank you for your time,\nRiya Raman'
   return (
     <div className="rounded-xl border border-line bg-surface">
       <pre className="whitespace-pre-wrap p-4 font-sans text-sm leading-relaxed">{text}</pre>
