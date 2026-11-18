@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Compass, Eye, EyeOff, AlertCircle, Loader2, ArrowLeft, Search, FileText, Mic, TrendingUp, ShieldCheck, ArrowRight } from 'lucide-react'
+import { Compass, Eye, EyeOff, AlertCircle, Loader2, ArrowLeft, Search, FileText, Mic, TrendingUp, ShieldCheck, ArrowRight, Sun, Moon } from 'lucide-react'
 import { Button } from '../shared/components/ui'
 import { EASE } from '../shared/components/motion'
 
@@ -8,18 +8,31 @@ export const args = {
   mode: 'signin',
   state: 'default',
   email: 'Riya.raman@outlook.com',
+  theme: 'light',
 }
 
 export const argTypes = {
   mode: { control: 'radio', options: ['signin', 'register'] },
   state: { control: 'select', options: ['default', 'error', 'loading'] },
   email: { control: 'text' },
+  theme: { control: 'radio', options: ['light', 'dark'] },
 }
 
 type Props = Partial<typeof args> & { onSubmit?: (mode: string) => void; onHome?: () => void }
 
 export default function SignIn(props: Props) {
-  const { mode: initialMode, state, email, onSubmit, onHome } = { ...args, ...props }
+  const { mode: initialMode, state, email, theme, onSubmit, onHome } = { ...args, ...props }
+  const [dark, setDark] = useState(() => props.theme ? theme === 'dark' : readTheme(theme === 'dark'))
+  useEffect(() => {
+    if (props.theme) setDark(props.theme === 'dark')
+  }, [props.theme])
+  const toggleDark = () => {
+    const next = !dark
+    setDark(next)
+    try {
+      localStorage.setItem('acc-theme', next ? 'dark' : 'light')
+    } catch {}
+  }
   const [remember, setRemember] = useState(true)
   const [mode, setMode] = useState(initialMode)
   const [show, setShow] = useState(false)
@@ -30,9 +43,11 @@ export default function SignIn(props: Props) {
   const loading = state === 'loading'
 
   return (
-    <div className="flex h-screen bg-canvas text-ink">
-      {/* Story panel */}
-      <aside className="relative m-3 hidden w-[44%] max-w-xl overflow-hidden rounded-3xl text-white lg:flex">
+    <div
+      className={`${dark ? 'dark' : ''} grid h-screen grid-cols-1 overflow-y-auto bg-canvas text-ink transition-colors duration-200 lg:grid-cols-2 lg:overflow-hidden`}
+    >
+      {/* Story panel: a compact banner on phones and tablets, the full left half on desktop */}
+      <aside className="relative m-3 flex min-h-[220px] overflow-hidden rounded-3xl text-white sm:min-h-[260px] lg:min-h-0">
         <motion.img
           src={STORY_IMG}
           alt=""
@@ -42,7 +57,7 @@ export default function SignIn(props: Props) {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-navy/70" />
-        <div className="relative flex flex-1 flex-col justify-between p-10">
+        <div className="relative flex flex-1 flex-col justify-between gap-6 p-6 sm:p-8 xl:p-12" style={{ backgroundColor: "#00000000", backgroundImage: "none" }}>
           <button onClick={onHome} className="group flex items-center gap-2.5 self-start">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
               <Compass className="h-4 w-4 transition-transform duration-300 ease-out-strong group-hover:rotate-45" />
@@ -51,20 +66,25 @@ export default function SignIn(props: Props) {
           </button>
 
           <div>
-            <h2 className="text-3xl font-semibold leading-tight tracking-tight">From first search to first offer, with an AI agent in your corner.</h2>
-            <p className="mt-4 max-w-md text-white/80">
+            <h2 className="max-w-lg text-2xl font-semibold leading-tight tracking-tight sm:text-3xl xl:text-4xl">
+              From first search to first offer, with an AI agent in your corner.
+            </h2>
+            <p className="mt-4 hidden max-w-md text-white/80 sm:block">
               Find roles that fit, tailor your resume honestly, practise interviews for the real job, and track every application in one place.
             </p>
 
-            <ol className="mt-8 space-y-1">
-              {LOOP.map((step, i) => (
-                <motion.li
-                  key={step.t}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.26, ease: EASE, delay: 0.15 + i * 0.05 }}
-                  className="flex gap-3.5 rounded-xl p-2.5 transition-colors duration-150 hover:bg-white/10"
-                >
+            <ol className="mt-8 hidden space-y-1 lg:block">
+              {LOOP.map((step, i) => <motion.li key={step.t} initial={{
+        opacity: 0,
+        x: -8
+      }} animate={{
+        opacity: 1,
+        x: 0
+      }} transition={{
+        duration: 0.26,
+        ease: EASE,
+        delay: 0.15 + i * 0.05
+      }} className="flex gap-3.5 rounded-xl p-2.5 transition-colors duration-150 hover:bg-white/10">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
                     <step.icon className="h-4 w-4" />
                   </span>
@@ -72,23 +92,44 @@ export default function SignIn(props: Props) {
                     <p className="text-sm font-semibold">{step.t}</p>
                     <p className="text-sm text-white/75">{step.d}</p>
                   </div>
-                </motion.li>
-              ))}
+                </motion.li>)}
             </ol>
           </div>
 
-          <p className="flex items-center gap-2 text-xs text-white/75">
-            <ShieldCheck className="h-4 w-4" /> NOVA never applies or sends messages without your approval.
+          <p className="hidden items-center gap-2 text-xs text-white/75 lg:flex">
+            <ShieldCheck className="h-4 w-4 shrink-0" /> NOVA never applies or sends messages without your approval.
           </p>
         </div>
       </aside>
 
       {/* Form */}
-      <main className="flex flex-1 items-center justify-center overflow-y-auto p-6">
-        <div className="w-full max-w-sm">
-          <button onClick={onHome} className="group mb-8 flex items-center gap-1.5 text-sm text-muted hover:text-ink">
+      <main className="flex min-w-0 flex-col px-5 pb-10 pt-3 sm:px-8 lg:overflow-y-auto lg:py-6">
+        <div className="flex items-center justify-between">
+          <button onClick={onHome} className="group flex items-center gap-1.5 text-sm text-muted transition-colors duration-150 hover:text-ink">
             <ArrowLeft className="h-4 w-4 transition-transform duration-150 ease-out-strong group-hover:-translate-x-0.5" /> Back to home
           </button>
+          <button
+            onClick={toggleDark}
+            role="switch"
+            aria-checked={dark}
+            aria-label="Dark theme"
+            className="relative flex h-9 w-[68px] shrink-0 items-center rounded-full border border-line bg-surface p-1 transition-colors duration-200"
+          >
+            <motion.span
+              className="absolute top-1 h-7 w-7 rounded-full bg-primary shadow-[var(--shadow-soft)]"
+              animate={{ x: dark ? 30 : 0 }}
+              transition={{ type: 'spring', stiffness: 600, damping: 36 }}
+            />
+            <span className={`relative flex h-7 w-7 items-center justify-center transition-colors duration-200 ${dark ? 'text-subtle' : 'text-white'}`}>
+              <Sun className="h-3.5 w-3.5" />
+            </span>
+            <span className={`relative ml-0.5 flex h-7 w-7 items-center justify-center transition-colors duration-200 ${dark ? 'text-white' : 'text-subtle'}`}>
+              <Moon className="h-3.5 w-3.5" />
+            </span>
+          </button>
+        </div>
+
+        <div className="mx-auto my-auto w-full max-w-md py-8">
 
           <div className="mb-6 grid grid-cols-2 rounded-xl bg-line-soft p-1 text-sm font-medium" role="tablist">
             {(['signin', 'register'] as const).map((m) => (
@@ -233,6 +274,15 @@ export default function SignIn(props: Props) {
       </main>
     </div>
   )
+}
+
+function readTheme(fallback: boolean) {
+  try {
+    const saved = localStorage.getItem('acc-theme')
+    return saved ? saved === 'dark' : fallback
+  } catch {
+    return fallback
+  }
 }
 
 function GoogleMark() {
