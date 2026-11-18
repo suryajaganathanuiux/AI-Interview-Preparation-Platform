@@ -64,7 +64,7 @@ export function ResumeStep({ initial }: StepProps & { initial: string }) {
         <div className="flex items-center gap-3">
           <FileText className="h-8 w-8 text-primary" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium">Riya_Raman_Resume_v3.pdf</p>
+            <p className="truncate text-sm font-medium">Priya_Raman_Resume_v3.pdf</p>
             <p className="text-xs text-muted">{progress < 100 ? `Uploading… ${progress}%` : 'Reading your resume…'}</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ export function ResumeStep({ initial }: StepProps & { initial: string }) {
       <div className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-surface p-4">
         <FileText className="h-8 w-8 shrink-0 text-primary" />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-medium">Riya_Raman_Resume_v3.pdf</p>
+          <p className="truncate text-sm font-medium">Priya_Raman_Resume_v3.pdf</p>
           <p className="text-xs text-muted">2 pages · 184 KB · uploaded just now</p>
         </div>
         <Button variant="secondary" size="sm" onClick={() => setState('empty')}>
@@ -347,7 +347,7 @@ function List({ title, items, tone }: { title: string; items: string[]; tone: st
 }
 
 const EXTRACTED: Record<string, string> = {
-  'Candidate name': 'Riya Raman',
+  'Candidate name': 'Priya Raman',
   Education: 'B.Tech Computer Science, Anna University – CEG, 2024 · 8.1 CGPA',
   Experience: 'Frontend Intern, Tessel Web · Jun–Aug 2023 · Built forms and API error states in React',
   Skills: 'React, JavaScript, HTML, CSS, REST APIs, Git, Figma, Firebase',

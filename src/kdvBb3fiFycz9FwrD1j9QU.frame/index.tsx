@@ -249,7 +249,7 @@ export default function Dashboard(props: Props) {
                 Open tracker
               </button>
             </div>
-            <dl className="mt-5 grid grid-cols-4 gap-2">
+            <dl className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {pipeline.map((s) => (
                 <div key={s.label} className="rounded-xl bg-canvas p-3">
                   <dd className="text-2xl font-semibold">

@@ -7,13 +7,13 @@ export const AVATAR_INTERVIEWER =
   'https://cdn.magicpatterns.com/patterns/generated-images/a8c9befa-6fcd-498b-a149-48777db430be.jpg'
 
 export const candidate = {
-  name: 'Riya Raman',
-  firstName: 'Riya',
-  email: 'Riya.raman@outlook.com',
+  name: 'Priya Raman',
+  firstName: 'Priya',
+  email: 'priya.raman@outlook.com',
   role: 'Frontend Developer · Fresher',
   avatar: AVATAR_CANDIDATE,
   degree: 'B.Tech Computer Science, 2024',
-  resume: 'Riya_Raman_Resume_v3.pdf',
+  resume: 'Priya_Raman_Resume_v3.pdf',
 }
 
 export type Dimension = 'Relevance' | 'Accuracy' | 'Structure' | 'Completeness' | 'Communication'

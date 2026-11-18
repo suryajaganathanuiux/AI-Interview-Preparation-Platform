@@ -5,7 +5,7 @@ import { Button } from '../shared/components/ui'
 
 export const args = {
   state: 'pending',
-  email: 'Riya.raman@outlook.com',
+  email: 'priya.raman@outlook.com',
 }
 
 export const argTypes = {

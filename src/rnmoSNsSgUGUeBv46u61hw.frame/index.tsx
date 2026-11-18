@@ -52,12 +52,12 @@ export default function ApplicationTracker(props: Props) {
         </div>
 
         {view === 'kanban' ? (
-          <div className="min-h-0 flex-1 overflow-x-auto px-4 pb-6 pt-5 sm:px-6 lg:px-8">
-            <div className="flex h-full min-w-max gap-4">
+          <div className="min-h-0 flex-1 snap-x snap-mandatory scroll-px-4 overflow-x-auto px-4 pb-6 pt-5 sm:snap-none sm:px-6 lg:px-8">
+            <div className="flex h-full min-w-max gap-3 sm:gap-4">
               {COLUMNS.map((col) => {
                 const items = apps.filter((a) => col.stages.includes(a.stage))
                 return (
-                  <section key={col.name} className="flex w-64 shrink-0 flex-col rounded-xl bg-line-soft/70 p-2">
+                  <section key={col.name} className="flex w-[300px] shrink-0 snap-start flex-col rounded-xl bg-line-soft/70 p-2 sm:w-64">
                     <header className="flex items-center justify-between px-2 py-1.5">
                       <h3 className="text-sm font-semibold">{col.name}</h3>
                       <span className="text-xs text-muted">{items.length}</span>
@@ -96,7 +96,34 @@ export default function ApplicationTracker(props: Props) {
           </div>
         ) : (
           <div className="min-h-0 flex-1 overflow-auto px-4 pb-6 pt-5 sm:px-6 lg:px-8">
-            <Panel className="overflow-x-auto">
+            {/* Phones: a stacked list in place of the wide table */}
+            <Panel className="divide-y divide-line overflow-hidden md:hidden">
+              {apps.map((a) => (
+                <button
+                  key={a.id}
+                  onClick={() => setOpenId(a.id)}
+                  className="flex w-full items-start gap-3 p-4 text-left transition-colors duration-150 active:bg-canvas"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-line-soft text-[11px] font-semibold text-muted">{a.initials}</span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="truncate text-sm font-semibold">{a.company}</span>
+                      <span className="shrink-0 text-xs text-muted">{a.date}</span>
+                    </span>
+                    <span className="mt-0.5 block truncate text-sm">{a.role}</span>
+                    <span className="mt-2 flex flex-wrap items-center gap-2">
+                      <Badge tone={STAGE_TONE[a.stage]}>{a.stage}</Badge>
+                      {(a.next || a.followUp) && (
+                        <span className="flex items-center gap-1 text-xs text-muted">
+                          <CalendarClock className="h-3 w-3" /> {a.next ?? `Follow up ${a.followUp}`}
+                        </span>
+                      )}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </Panel>
+            <Panel className="hidden overflow-x-auto md:block">
               <table className="w-full min-w-[720px] text-sm">
                 <thead>
                   <tr className="border-b border-line text-left text-xs text-muted">

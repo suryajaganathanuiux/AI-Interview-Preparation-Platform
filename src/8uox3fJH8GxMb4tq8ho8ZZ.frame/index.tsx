@@ -612,7 +612,7 @@ function InterviewPreview() {
     <div>
       <p className="text-xs text-muted">Question 4 of 5 · Behavioral</p>
       <p className="mt-2 text-lg font-semibold">Describe a time you disagreed with a teammate. How did you handle it?</p>
-      <div className="mt-5 grid grid-cols-5 gap-2 text-center text-xs">
+      <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs sm:grid-cols-5">
         {[
           ['Relevance', 86],
           ['Accuracy', 74],

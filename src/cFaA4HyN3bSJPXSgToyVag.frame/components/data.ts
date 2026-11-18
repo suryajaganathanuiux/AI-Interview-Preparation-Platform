@@ -35,7 +35,7 @@ export type OnboardingData = {
 
 export const initialData: OnboardingData = {
   goals: ['Find a job', 'Prepare for interviews'],
-  name: 'Riya Raman',
+  name: 'Priya Raman',
   phone: '',
   location: 'Chennai',
   country: 'India',

@@ -155,7 +155,18 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
           </button>
         </div>
       </aside>
-      {open && <div className="fixed inset-0 z-30 bg-navy/40 lg:hidden" onClick={() => setOpen(false)} />}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-30 bg-navy/40 backdrop-blur-[2px] lg:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
@@ -242,10 +253,42 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.24, ease: [0.23, 1, 0.32, 1] }}
-          className="min-h-0 flex-1 overflow-y-auto"
+          className={`min-h-0 flex-1 overflow-y-auto lg:pb-0 ${variant === 'candidate' ? 'pb-16' : ''}`}
         >
           {children}
         </motion.main>
+
+        {/* Phone & tablet: bottom tab bar for the five places used most */}
+        {variant === 'candidate' && (
+          <nav
+            aria-label="Primary"
+            className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-line bg-surface/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
+          >
+            {TABS.map((t) => {
+              const isActive = t.match.includes(active)
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => go(t.key)}
+                  aria-current={isActive ? 'page' : undefined}
+                  className={`relative flex h-16 flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors duration-150 active:scale-95 ${
+                    isActive ? 'text-primary' : 'text-muted'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="tab-active"
+                      className="absolute top-0 h-0.5 w-8 rounded-b-full bg-primary"
+                      transition={{ type: 'spring', stiffness: 520, damping: 40 }}
+                    />
+                  )}
+                  <t.icon className="h-5 w-5" strokeWidth={isActive ? 2.25 : 1.75} />
+                  {t.label}
+                </button>
+              )
+            })}
+          </nav>
+        )}
       </div>
 
       {/* NOVA */}
@@ -253,14 +296,14 @@ export function AppShell({ active, onNavigate, variant = 'candidate', title, cru
         <>
           <button
             onClick={() => setNova(true)}
-            className={`group fixed bottom-5 right-5 z-30 flex h-12 items-center gap-2 rounded-full bg-primary pl-4 pr-5 text-sm font-medium text-white shadow-lg shadow-primary/30 transition-[transform,opacity,box-shadow] duration-200 ease-out-strong hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-xl hover:shadow-primary/35 active:scale-[0.97] ${
+            className={`group fixed bottom-20 right-4 z-30 flex h-12 w-12 items-center justify-center gap-2 rounded-full bg-primary sm:w-auto sm:pl-4 sm:pr-5 lg:bottom-5 lg:right-5 text-sm font-medium text-white shadow-lg shadow-primary/30 transition-[transform,opacity,box-shadow] duration-200 ease-out-strong hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-xl hover:shadow-primary/35 active:scale-[0.97] ${
               nova ? 'pointer-events-none scale-95 opacity-0' : ''
             }`}
             aria-label="Ask NOVA, your AI career agent"
           >
             <span className="pointer-events-none absolute inset-0 rounded-full bg-primary animate-ping-soft" style={{ animationIterationCount: 3 }} aria-hidden />
             <Sparkles className="relative h-4 w-4 transition-transform duration-300 ease-out-strong group-hover:rotate-12 group-hover:scale-110" />
-            <span className="relative">Ask NOVA</span>
+            <span className="relative hidden sm:inline">Ask NOVA</span>
           </button>
           <NovaPanel open={nova} onClose={() => setNova(false)} onNavigate={go} onExpand={() => go('nova')} />
         </>
@@ -492,6 +535,14 @@ const CANDIDATE_NAV: { label: string; items: Item[] }[] = [
     label: 'Account',
     items: [{ key: 'trust', label: 'Trust Center', icon: ShieldCheck }],
   },
+]
+
+const TABS: { key: NavKey; label: string; icon: typeof Bell; match: NavKey[] }[] = [
+  { key: 'dashboard', label: 'Home', icon: LayoutDashboard, match: ['dashboard'] },
+  { key: 'jobs', label: 'Jobs', icon: Briefcase, match: ['jobs', 'jobs-recommended', 'jobs-saved', 'job-detail'] },
+  { key: 'studio', label: 'Practice', icon: Mic, match: ['studio', 'questions', 'feedback'] },
+  { key: 'applications', label: 'Tracker', icon: KanbanSquare, match: ['applications'] },
+  { key: 'progress', label: 'Progress', icon: TrendingUp, match: ['progress'] },
 ]
 
 const ADMIN_NAV: { label: string; items: Item[] }[] = [

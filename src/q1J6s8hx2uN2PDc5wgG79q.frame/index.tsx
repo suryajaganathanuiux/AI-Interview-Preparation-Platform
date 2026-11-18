@@ -103,7 +103,7 @@ export default function TrustCenter(props: Props) {
           <Section id="storage" icon={FileLock2} title="Resume and file storage">
             <Panel className="flex flex-wrap items-center gap-4 p-4">
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium">{deletedResume ? 'No resume stored' : 'Riya_Raman_Resume_v3.pdf + 1 tailored version'}</p>
+                <p className="text-sm font-medium">{deletedResume ? 'No resume stored' : 'Priya_Raman_Resume_v3.pdf + 1 tailored version'}</p>
                 <p className="text-xs text-muted">Encrypted at rest. Opened only through short-lived signed links. Never visible to other users.</p>
               </div>
               {!deletedResume && (
